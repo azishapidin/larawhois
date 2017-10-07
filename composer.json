@@ -1,0 +1,13 @@
+{
+    "name": "azishapidin/whois-lookup",
+    "description": "Laravel Package for grabbing specific information about a domain name.",
+    "authors": [
+        {
+            "name": "Azis Hapidin",
+            "email": "azishapidin@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzle/http": "^3.9"
+    }
+}
