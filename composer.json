@@ -7,8 +7,12 @@
             "email": "azishapidin@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "guzzlehttp/guzzle": "^6.0"
+        "guzzlehttp/guzzle": "@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-0": {
