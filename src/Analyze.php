@@ -3,9 +3,8 @@
 namespace AzisHapidin\WhoisLookup;
 
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 
-class Analyze extends Controller
+class Analyze
 {
     protected $config;
     protected $result;
