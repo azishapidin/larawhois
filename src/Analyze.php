@@ -5,7 +5,7 @@ namespace AzisHapidin\WhoisLookup;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
-class Analyze extends Controller
+class Analyze
 {
     protected $config;
     protected $result;
@@ -28,22 +28,24 @@ class Analyze extends Controller
         if (isset($config['api_key'])) {
             $this->config['api_key'] = $config['api_key'];
         } else {
-            $this->config['api_key '] = config('whois-lookup.api_key');
+            $this->config['api_key'] = config('whois-lookup.api_key');
         }
     }
 
     protected function takeData()
     {
         $client = new Client();
+        $costumerId = $this->config['costumer_id'];
+        $apiKey = $this->config['api_key'];
         $requestUrl = 'https://jsonwhoisapi.com/api/v1/whois';
         $requestUrl .= '?identifier=' . $this->domainName;
 
         $response = $client->request('GET', $requestUrl, [
-            'auth' => ['user', 'pass']
+            'auth' => [$costumerId, $apiKey]
         ]);
 
         if ($response->getStatusCode() == 200) {
-            $this->result = $response->getBody();
+            $this->result = (string) $response->getBody();
         }
     }
 
@@ -68,6 +70,6 @@ class Analyze extends Controller
         if (is_null($this->result)) {
             return null;
         }
-        return [];
+        return json_decode($this->result, true);
     }
 }
