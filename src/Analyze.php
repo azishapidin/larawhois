@@ -3,7 +3,6 @@
 namespace AzisHapidin\WhoisLookup;
 
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 
 class Analyze
 {
