@@ -1,5 +1,5 @@
 {
-    "name": "azishapidin/whois-lookup",
+    "name": "azishapidin/larawhois",
     "description": "Laravel Package for grabbing specific information about a domain name.",
     "authors": [
         {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-0": {
-            "AzisHapidin\\WhoisLookup\\": "src/"
+            "AzisHapidin\\LaraWhois\\": "src/"
         }
     }
 }

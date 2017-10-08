@@ -1,10 +1,10 @@
 <?php
 
-namespace AzisHapidin\WhoisLookup;
+namespace AzisHapidin\LaraWhois;
 
 use Illuminate\Support\ServiceProvider;
 
-class WhoisLookupProvider extends ServiceProvider
+class LaraWhoisProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -15,7 +15,7 @@ class WhoisLookupProvider extends ServiceProvider
     {
         if (version_compare(app()->version(), '5.0', '>=')) {
             $this->publishes([
-                __DIR__.'/../config/whois-lookup.php' => config_path('whois-lookup.php'),
+                __DIR__.'/../config/larawhois.php' => config_path('larawhois.php'),
             ], 'config');
         }
     }

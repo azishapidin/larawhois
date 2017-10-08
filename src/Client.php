@@ -1,6 +1,6 @@
 <?php
 
-namespace AzisHapidin\WhoisLookup;
+namespace AzisHapidin\LaraWhois;
 
 use GuzzleHttp\Client as GuzzleClient;
 
@@ -32,7 +32,7 @@ class Client
     /**
      * Class Constructor
      * @param string $domainName Required, Domain Name (Example: azishapidin.com)
-     * @param array  $config     Optional, Costum Configuration (By default configuration is take from config/whois-lookup.php)
+     * @param array  $config     Optional, Costum Configuration (By default configuration is take from config/larawhois.php)
      */
     public function __construct($domainName = '', $config = [])
     {
@@ -50,12 +50,12 @@ class Client
         if (isset($config['customer_id'])) {
             $this->config['costumer_id'] = $config['costumer_id'];
         } else {
-            $this->config['costumer_id'] = config('whois-lookup.costumer_id');
+            $this->config['costumer_id'] = config('larawhois.costumer_id');
         }
         if (isset($config['api_key'])) {
             $this->config['api_key'] = $config['api_key'];
         } else {
-            $this->config['api_key'] = config('whois-lookup.api_key');
+            $this->config['api_key'] = config('larawhois.api_key');
         }
     }
 
