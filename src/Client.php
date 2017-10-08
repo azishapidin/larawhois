@@ -2,14 +2,38 @@
 
 namespace AzisHapidin\WhoisLookup;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as GuzzleClient;
 
-class Analyze
+/**
+ * WhoisLookup Client Class
+ *
+ * @author Azis Hapidin <azishapidin@gmail.com>
+ */
+class Client
 {
+    /**
+     * Configuration
+     * @var array
+     */
     protected $config;
+
+    /**
+     * Result
+     * @var json
+     */
     protected $result;
+
+    /**
+     * Domain Name
+     * @var string
+     */
     protected $domainName;
 
+    /**
+     * Class Constructor
+     * @param string $domainName Required, Domain Name (Example: azishapidin.com)
+     * @param array  $config     Optional, Costum Configuration (By default configuration is take from config/whois-lookup.php)
+     */
     public function __construct($domainName = '', $config = [])
     {
         $this->domainName = $domainName;
@@ -17,6 +41,10 @@ class Analyze
         $this->takeData();
     }
 
+    /**
+     * Create and fill Config Variable
+     * @param  array  $config Configuration
+     */
     protected function createConfig($config = [])
     {
         if (isset($config['customer_id'])) {
@@ -31,9 +59,12 @@ class Analyze
         }
     }
 
+    /**
+     * Get Data from Web Service and Move Result to $this->result
+     */
     protected function takeData()
     {
-        $client = new Client();
+        $client = new GuzzleClient();
         $costumerId = $this->config['costumer_id'];
         $apiKey = $this->config['api_key'];
         $requestUrl = 'https://jsonwhoisapi.com/api/v1/whois';
@@ -48,6 +79,10 @@ class Analyze
         }
     }
 
+    /**
+     * Get Result and Convert it to PHP Object
+     * @return object Object Result
+     */
     public function getObject()
     {
         if (is_null($this->result)) {
@@ -56,6 +91,10 @@ class Analyze
         return json_decode($this->result);
     }
 
+    /**
+     * Get Result and Convert it to JSON
+     * @return string JSON Result
+     */
     public function getJson()
     {
         if (is_null($this->result)) {
@@ -64,6 +103,10 @@ class Analyze
         return $this->result;
     }
 
+    /**
+     * Get Result and Convert it to PHP Array
+     * @return array PHP Array of Result
+     */
     public function getArray()
     {
         if (is_null($this->result)) {
