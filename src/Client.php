@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace AzisHapidin\WhoisLookup;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
-class WhoisLookup extends Controller
+class Client extends Controller
 {
     protected $config;
     protected $result;
