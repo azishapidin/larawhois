@@ -1,11 +1,10 @@
-<?php
+<?php namespace AzisHapidin\LaraWhois;
 
-namespace AzisHapidin\LaraWhois;
-
+use AzisHapidin\LaraWhois\Converter;
 use GuzzleHttp\Client as GuzzleClient;
 
 /**
- * WhoisLookup Client Class
+ * LaraWhois Client Class
  *
  * @author Azis Hapidin <azishapidin@gmail.com>
  */
@@ -16,12 +15,6 @@ class Client
      * @var array
      */
     protected $config;
-
-    /**
-     * Result
-     * @var json
-     */
-    protected $result;
 
     /**
      * Domain Name
@@ -38,7 +31,50 @@ class Client
     {
         $this->domainName = $domainName;
         $this->createConfig($config);
-        $this->takeData();
+    }
+
+    /**
+     * Get Data from Web Service and Move Result to $this->result
+     */
+    public function get()
+    {
+        $client = new GuzzleClient();
+        $response = $client->request('GET', $this->getUri(), $this->getAuthInfo());
+
+        if ($response->getStatusCode() == 200) {
+            $result = (string) $response->getBody();
+            $converter = new Converter($result);
+            return $converter;
+        }
+
+        return;
+    }
+
+    /**
+     * Get Authorization Info
+     *
+     * @return array
+     */
+    public function getAuthInfo()
+    {
+        return [
+            'auth' => [$this->config['costumer_id'], $this->config['api_key']]
+        ];
+    }
+
+    /**
+     * Get Uri Info
+     *
+     * @return string
+     */
+    public function getUri()
+    {
+        $parameter = [
+            'identifier' => $this->domainName
+        ];
+        $requestUri = 'https://jsonwhoisapi.com/api/v1/whois' . urlencode($parameter);
+
+        return $requestUri;
     }
 
     /**
@@ -57,61 +93,5 @@ class Client
         } else {
             $this->config['api_key'] = config('larawhois.api_key');
         }
-    }
-
-    /**
-     * Get Data from Web Service and Move Result to $this->result
-     */
-    protected function takeData()
-    {
-        $client = new GuzzleClient();
-        $costumerId = $this->config['costumer_id'];
-        $apiKey = $this->config['api_key'];
-        $requestUrl = 'https://jsonwhoisapi.com/api/v1/whois';
-        $requestUrl .= '?identifier=' . $this->domainName;
-
-        $response = $client->request('GET', $requestUrl, [
-            'auth' => [$costumerId, $apiKey]
-        ]);
-
-        if ($response->getStatusCode() == 200) {
-            $this->result = (string) $response->getBody();
-        }
-    }
-
-    /**
-     * Get Result and Convert it to PHP Object
-     * @return object Object Result
-     */
-    public function getObject()
-    {
-        if (is_null($this->result)) {
-            return null;
-        }
-        return json_decode($this->result);
-    }
-
-    /**
-     * Get Result and Convert it to JSON
-     * @return string JSON Result
-     */
-    public function getJson()
-    {
-        if (is_null($this->result)) {
-            return null;
-        }
-        return $this->result;
-    }
-
-    /**
-     * Get Result and Convert it to PHP Array
-     * @return array PHP Array of Result
-     */
-    public function getArray()
-    {
-        if (is_null($this->result)) {
-            return null;
-        }
-        return json_decode($this->result, true);
     }
 }
