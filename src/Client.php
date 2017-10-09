@@ -72,7 +72,7 @@ class Client
         $parameter = [
             'identifier' => $this->domainName
         ];
-        $requestUri = 'https://jsonwhoisapi.com/api/v1/whois' . urlencode($parameter);
+        $requestUri = 'https://jsonwhoisapi.com/api/v1/whois?' . http_build_query($parameter);
 
         return $requestUri;
     }
