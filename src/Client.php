@@ -2,6 +2,7 @@
 
 use AzisHapidin\LaraWhois\Converter;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * LaraWhois Client Class
@@ -39,12 +40,17 @@ class Client
     public function get()
     {
         $client = new GuzzleClient();
-        $response = $client->request('GET', $this->getUri(), $this->getAuthInfo());
 
-        if ($response->getStatusCode() == 200) {
+        try {
+            $response = $client->request('GET', $this->getUri(), $this->getAuthInfo());
             $result = (string) $response->getBody();
             $converter = new Converter($result);
+
             return $converter;
+        } catch (GuzzleException $e) {
+            $response = $e->getResponse();
+
+            return $response->getStatusCode();
         }
 
         return;
