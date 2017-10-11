@@ -36,6 +36,8 @@ class Client
 
     /**
      * Get Data from Web Service and Move Result to $this->result
+     * 
+     * @return mixed
      */
     public function get()
     {
