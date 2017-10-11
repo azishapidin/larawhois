@@ -5,6 +5,7 @@ LaraWhois is Laravel 5 Package Wrapper for https://jsonwhoisapi.com/. To use thi
 
 ## Instalation
 > This Package is Still on Development
+
 This package is now Available on Packagist, just type this command on Terminal:
 ```php
 composer require azishapidin/larawhois @dev
